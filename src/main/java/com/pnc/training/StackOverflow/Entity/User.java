@@ -1,8 +1,13 @@
 package com.pnc.training.StackOverflow.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pnc.training.StackOverflow.CustomAnnotation.ValidEmail;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -12,9 +17,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
+
+    @NotNull
+    @NotEmpty
+    //@Size(min = 2, max = 30)
     private String firstname;
+
+    @NotNull
+    @NotEmpty
+    //@Min(5)
     private String lastname;
+
+    @ValidEmail
+    @NotNull
+    @NotEmpty
     private String email;
+    @NotNull
+    @NotEmpty
     private String password;
 
 

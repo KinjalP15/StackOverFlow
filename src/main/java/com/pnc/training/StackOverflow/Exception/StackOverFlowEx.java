@@ -1,13 +1,16 @@
-package com.pnc.training.StackOverflow.Controller;
+package com.pnc.training.StackOverflow.Exception;
 
-public class StackOverFlowEx {
+public class StackOverFlowEx extends Throwable {
     String statusCode;
     String message;
+
+    public StackOverFlowEx(){}
 
     public StackOverFlowEx (String statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
+
 
     public String getStatusCode() {
         return statusCode;
