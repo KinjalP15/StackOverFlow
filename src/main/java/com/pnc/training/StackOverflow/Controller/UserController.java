@@ -26,18 +26,17 @@ public class UserController {
     UserDao userDao;
 
     @PostMapping("/signup")
-    public ResponseEntity saveUser(@RequestBody User user) throws NoSuchAlgorithmException{
-       try {
+    public ResponseEntity saveUser(@RequestBody User user) throws NoSuchAlgorithmException {
+        try {
 
-           userService.saveUser(user);
-           return new ResponseEntity<User>(user,HttpStatus.OK);
-       }catch(Exception exception)
-       {
-           StackOverFlowEx ex=new StackOverFlowEx();
-           ex.setStatusCode("1023");
-           ex.setMessage("Invalid Email");
-           return new ResponseEntity<StackOverFlowEx>(ex,HttpStatus.BAD_REQUEST);
-       }
+            userService.saveUser(user);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        } catch (Exception exception) {
+            StackOverFlowEx ex = new StackOverFlowEx();
+            ex.setStatusCode("1023");
+            ex.setMessage("Invalid Email");
+            return new ResponseEntity<StackOverFlowEx>(ex, HttpStatus.BAD_REQUEST);
+        }
 
 
     }
@@ -62,27 +61,25 @@ public class UserController {
 //    }
 
     @PostMapping("/login1")
-    public ResponseEntity Login(@RequestBody User user){
-        try{
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest ) {
+        try {
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("token",userService.loginAccount(user));
-            return new ResponseEntity(httpHeaders,HttpStatus.OK);
-        }
-        catch (Exception | StackOverFlowEx ex){
+            httpHeaders.set("token", userService.loginAccount(loginRequest));
+            return new ResponseEntity(httpHeaders, HttpStatus.OK);
+        } catch (Exception | StackOverFlowEx ex) {
+            ex.printStackTrace();
             System.out.println("Bad request");
-            return new ResponseEntity(new StackOverFlowEx("1022","Invalid Data"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new StackOverFlowEx("1022", "Invalid Data"), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestBody LoginRequest loginRequest) {
-
-            User user=userDao.findByEmail(loginRequest.getEmail());
-            if(user.getPassword().equals(loginRequest.getPassword()))
-            {
-                System.out.println("true kinjal");
-            }
-        return user;
-    }
-
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public void login(@RequestBody LoginRequest loginRequest) {
+//
+//        User user = userDao.findByEmail(loginRequest.getEmail());
+//        if (user.getPassword().equals(loginRequest.getPassword())) {
+//            System.out.println("true kinjal");
+//        }
+//
+//    }
 }

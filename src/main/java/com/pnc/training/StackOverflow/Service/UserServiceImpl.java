@@ -1,6 +1,7 @@
 package com.pnc.training.StackOverflow.Service;
 
 import com.pnc.training.StackOverflow.DAO.UserDao;
+import com.pnc.training.StackOverflow.Entity.LoginRequest;
 import com.pnc.training.StackOverflow.Entity.User;
 import com.pnc.training.StackOverflow.Exception.StackOverFlowEx;
 import com.pnc.training.StackOverflow.Security.JWTHandler;
@@ -28,11 +29,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginAccount(User user) throws StackOverFlowEx {
-        User user1 = userDao.findByEmail(user.getEmail());
+    public String loginAccount(LoginRequest loginRequest) throws StackOverFlowEx {
+        User user1 = userDao.findByEmail(loginRequest.getEmail());
         String token = null;
         try{
-            if(user1 != null && user1.getPassword().equals(user1.getPassword())){
+            if(user1 != null && user1.getPassword().equals(toHexString(getSHA(loginRequest.getPassword())))) {
                 token = jwtHandler.createToken(user1.getUserId());
             }
         }

@@ -10,11 +10,10 @@ import java.util.List;
 @Table(name="Question")
 public class Questions {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
 
 //    @Column(name="question_Id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long questionId;
     private long userId;
     private String title;
@@ -123,7 +122,9 @@ public class Questions {
         this.body = body;
     }
 
+    public Questions(){
 
+    }
 
     @Override
     public String toString() {

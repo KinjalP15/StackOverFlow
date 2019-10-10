@@ -22,16 +22,10 @@ public class JWTHandler {
 
     private Set<String> hashSet;
 
-    private String userId;
     String secretKey = "RandomSecretkey";
-
 
     public JWTHandler() {
         hashSet = new HashSet<>();
-    }
-
-    public JWTHandler(String userId){
-        this.userId = userId;
     }
 
     public String createToken(Long userId) {
@@ -82,7 +76,7 @@ public class JWTHandler {
         if(validate(token)){
             Verifier verifier = HMACVerifier.newVerifier(secretKey);
             JWT jwt = JWT.getDecoder().decode(token.substring(3), verifier);
-            return jwt.getString("userId");
+            return jwt.getString("username");
         }
         return "";
     }

@@ -1,4 +1,5 @@
 package com.pnc.training.StackOverflow.Service;
+import com.pnc.training.StackOverflow.Entity.LoginRequest;
 import com.pnc.training.StackOverflow.Entity.User;
 import com.pnc.training.StackOverflow.Exception.StackOverFlowEx;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
     public void saveUser(User user) throws NoSuchAlgorithmException;
 
-    public String loginAccount(User user) throws StackOverFlowEx;
+    public String loginAccount(LoginRequest loginRequest) throws StackOverFlowEx;
 
     public void invalidToken(String token) throws StackOverFlowEx;
 
