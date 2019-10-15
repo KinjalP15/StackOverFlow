@@ -3,11 +3,13 @@ package com.pnc.training.StackOverflow.Service;
 import com.pnc.training.StackOverflow.DAO.UserDao;
 import com.pnc.training.StackOverflow.Entity.LoginRequest;
 import com.pnc.training.StackOverflow.Entity.User;
+import com.pnc.training.StackOverflow.Exception.EmailExistsException;
 import com.pnc.training.StackOverflow.Exception.StackOverFlowEx;
 import com.pnc.training.StackOverflow.Security.JWTHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -23,7 +25,13 @@ public class UserServiceImpl implements UserService {
    private  JWTHandler jwtHandler;
 
     @Override
-    public void saveUser(User user) throws NoSuchAlgorithmException {
+    public void saveUser(User user) throws NoSuchAlgorithmException, NonUniqueResultException {
+        if(userDao.findByEmail(user.getEmail())!=null)
+        {
+            System.out.println("Email exist");
+            throw new NonUniqueResultException();
+        }
+        System.out.println("email doesnt exist");
         user.setPassword(toHexString(getSHA(user.getPassword())));
         userDao.save(user);
     }
@@ -71,7 +79,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User olduser, User newuser) {
-        olduser.setUserId(newuser.getUserId());
+    public void updateUser(User user) {
+        userDao.save(user);
+
     }
+
+    @Override
+    public User getOne(long uid) {
+        return userDao.getOne(uid);
+    }
+
+    @Override
+    public User registerNewUserAccount(User user) throws EmailExistsException {
+        if((userDao.findByEmail(user.getEmail())==null)){
+            throw new EmailExistsException("There is an account with that email address:"  + user.getEmail());
+        }
+       User user1 = new User();
+        user1.setFirstname(user.getFirstname());
+        user1.setLastname(user.getLastname());
+        user1.setEmail(user.getEmail());
+        user1.setPassword(user.getPassword());
+
+        return userDao.save(user);
+    }
+
+//    private boolean emailExists(String email) {
+//        User user = userDao.findByEmail(email);
+//        if (user != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 }
