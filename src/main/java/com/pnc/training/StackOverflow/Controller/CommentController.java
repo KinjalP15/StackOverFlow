@@ -26,21 +26,25 @@ public class CommentController {
 
     }
 
-
-    @PostMapping("/answers/{answerId}")
-    public String createComment(@PathVariable long answerId, @RequestBody Comment newcomment) {
-        Answers answers = answerService.getAnswersById(answerId);
-        //Answers newAns = new Answers();
-        newcomment.setAnswers(answers);
-        commentService.saveComment(newcomment);
-        List<Comment> ansofcomment = answers.getComments();
-        ansofcomment.add(newcomment);
-        answers.setComments(ansofcomment);
-        answerService.saveAnswer(answers);
-
-        return newcomment.toString();
-
+    @PostMapping("/answer/comment")
+    public  String createComment(@RequestBody Comment newComment){
+        commentService.saveComment(newComment);
+        return newComment.toString();
     }
+//    @PostMapping("/answers/{answerId}")
+//    public String createComment(@PathVariable long answerId, @RequestBody Comment newcomment) {
+//        Answers answers = answerService.getAnswersById(answerId);
+//        //Answers newAns = new Answers();
+//        newcomment.setAnswers(answers);
+//        commentService.saveComment(newcomment);
+//        List<Comment> ansofcomment = answers.getComments();
+//        ansofcomment.add(newcomment);
+//        answers.setComments(ansofcomment);
+//        answerService.saveAnswer(answers);
+//
+//        return newcomment.toString();
+//
+//    }
 
     @GetMapping("/comments")
     public String getComments(){

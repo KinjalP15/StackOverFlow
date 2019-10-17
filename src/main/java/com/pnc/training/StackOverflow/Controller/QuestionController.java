@@ -7,6 +7,8 @@ import com.pnc.training.StackOverflow.Service.AnswerService;
 import com.pnc.training.StackOverflow.Service.QuestionsService;
 import com.pnc.training.StackOverflow.Service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,15 +28,14 @@ public class QuestionController {
 
 
     @GetMapping("/question")
-    public String getQuestions(){
-        List<Questions> questions= questionsService.getAllQuestions();
-        return questions.toString();
+    public ResponseEntity getQuestions(){
+        return new ResponseEntity(questionsService.getAllQuestions(), HttpStatus.OK);
     }
 
     @GetMapping("questions/{questionId}")
     public String questionDetails(@PathVariable long questionId) {
         Questions onequestion = questionsService.getQuestionById(questionId);
-        return "questionDetails";
+        return onequestion.toString();
     }
 
     @PostMapping("/question")
@@ -46,18 +47,25 @@ public class QuestionController {
 
 
 
-    @PostMapping("/questions/{questionId}")
-    public String createNewAnswer(@PathVariable long questionId, @RequestBody Answers newAns) {
-        Questions questions = questionsService.getQuestionById(questionId);
-        //Answers newAns = new Answers();
-        newAns.setQuestions(questions);
+    //@PostMapping("/questions/{questionId}")
+    @PostMapping("questions/ans")
+    public String createNewAnswer(@RequestBody Answers newAns) {
+//        Questions questions = questionsService.getQuestionById(newAns.getQuestions().getQuestionId());
+//        //Answers newAns = new Answers();
+//        newAns.setQuestions(questions);
+//        answerService.saveAnswer(newAns);
+//        List<Answers> answersofque = questions.getAnswersList();
+//        answersofque.add(newAns);
+//        questions.setAnswersList(answersofque);
+//        questionsService.saveQuestion(questions);
         answerService.saveAnswer(newAns);
-        List<Answers> answersofque = questions.getAnswersList();
-        answersofque.add(newAns);
-        questions.setAnswersList(answersofque);
-        questionsService.saveQuestion(questions);
 
         return newAns.toString();
+    }
+
+    @DeleteMapping("/question/{id}")
+    public void deleteQuestionById(@PathVariable Long id){
+        questionsService.deleteQuestionById(id);
     }
 
 

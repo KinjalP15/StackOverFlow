@@ -3,7 +3,6 @@ package com.pnc.training.StackOverflow.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +20,7 @@ public class Questions {
     private String tag;
 
 
-    @JsonIgnore
+   // @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
@@ -39,21 +38,19 @@ public class Questions {
 
 
 
-    @ElementCollection(targetClass=Answers.class)
-   // @OneToMany(targetEntity=Questions.class, mappedBy="answerID",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-  // @OneToMany(targetEntity=Questions.class,fetch = FetchType.LAZY, mappedBy = "questionId", cascade=CascadeType.ALL)
-   @JsonIgnore
-    @OneToMany
+    //@ElementCollection(targetClass=Answers.class)
+
+    @OneToMany(mappedBy = "questions", cascade = CascadeType.MERGE)
     private List<Answers> answers;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinTable(
             name="tag_questions",
             joinColumns = @JoinColumn(name="questionId"),
             inverseJoinColumns = @JoinColumn(name="tagId")
     )
 
-    @JsonIgnore
+    //@JsonIgnore
     private List<Tag> tags;
 
     public List<Tag> getTags() {
@@ -72,7 +69,7 @@ public class Questions {
         this.tag = tag;
     }
 
-    @JsonIgnore
+    //@JsonIgnore
     public List<Answers> getAnswers() {
         return answers;
     }
@@ -81,7 +78,7 @@ public class Questions {
         this.answers = answers;
     }
 
-    @JsonIgnore
+   // @JsonIgnore
     public List<Answers> getAnswersList() {
         return answers;
     }

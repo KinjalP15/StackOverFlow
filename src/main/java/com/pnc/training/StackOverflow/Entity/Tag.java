@@ -14,8 +14,8 @@ public class Tag {
     private long tagId;
     private String tagName;
 
-    /*
-    @ManyToMany(fetch = FetchType.LAZY)
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name="tag_questions",
             joinColumns = @JoinColumn(name="tagId"),
@@ -31,8 +31,9 @@ public class Tag {
     public void setQuestionsList(List<Questions> questionsList) {
         this.questionsList = questionsList;
     }
-*/
-    public  Tag(String tagStr){}
+
+
+    public Tag(){}
 
     public long getTagId() {
         return tagId;
@@ -50,5 +51,11 @@ public class Tag {
         this.tagName = tagName;
     }
 
-
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", tagName='" + tagName + '\'' +
+                '}';
+    }
 }

@@ -13,7 +13,7 @@ public class Comment {
 
     public Comment(){}
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     @JoinColumn
     private Answers answers;
 

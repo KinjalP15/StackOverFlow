@@ -13,15 +13,15 @@ public class Answers {
     private String body;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="questionId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    //@JoinColumn(name="questionId")
     private Questions questions;
 
     public Answers(){}
 
     //Comments to add
     @ElementCollection(targetClass = Comment.class)
-    @OneToMany
+    @OneToMany(mappedBy = "answers",cascade = CascadeType.MERGE)
     private List<Comment> comments;
 
     public List<Comment> getComments() {

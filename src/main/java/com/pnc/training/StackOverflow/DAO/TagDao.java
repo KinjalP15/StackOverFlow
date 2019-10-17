@@ -3,7 +3,9 @@ package com.pnc.training.StackOverflow.DAO;
 import com.pnc.training.StackOverflow.Entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TagDao extends JpaRepository<Tag, Long> {
 
     @Query(value="Select count(*) from tag t where t.tagName = ?1 ", nativeQuery = true)

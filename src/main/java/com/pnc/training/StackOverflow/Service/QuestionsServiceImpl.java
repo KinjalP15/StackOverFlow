@@ -15,12 +15,12 @@ public class QuestionsServiceImpl implements QuestionsService {
 
     @Override
     public List<Questions> getAllQuestions() {
-        return (List<Questions>) questionsdao.findAll();
+        return questionsdao.findAll();
     }
 
     @Override
     public void saveQuestion(Questions questions) {
-         questionsdao.save(questions);
+                 questionsdao.save(questions);
 
     }
 
@@ -28,6 +28,11 @@ public class QuestionsServiceImpl implements QuestionsService {
     public Questions getQuestionById(Long id) {
        return questionsdao.getOne(id);
 
+    }
+
+    @Override
+    public void deleteQuestionById(Long id) {
+         questionsdao.deleteById(id);
     }
 
 
